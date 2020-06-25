@@ -6,9 +6,23 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname)
+    cb(null, formatDate(new Date()) +'_'+ file.originalname.replace(/ /g, '_'))
   }
 })
+
+const formatDate = (date) => {
+  let dates = new Date(), 
+      month = '' + (dates.getMonth() + 1),
+      day = '' + dates.getDate(),
+      year = dates.getFullYear()
+  
+  if (month.length < 2) 
+    month = '0' + month
+  if (day.length < 2)
+    day = '0' + day
+  
+  return [year, month, day].join('')
+}
 
 const filterFile = (req, file, cb) => {
   if (
