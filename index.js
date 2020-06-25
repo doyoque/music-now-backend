@@ -3,8 +3,10 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import dbConnect from './config/database.js'
 import dotenv from 'dotenv'
+
+import dbConnect from './config/database.js'
+import route from './api/routes/route.js'
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
@@ -31,6 +33,11 @@ app.use(morgan('dev'))
 app.get('/', (req, res) => {
   res.json('menv work')
 })
+
+app.use('/music', route)
+
+//define static dir
+app.use('/uploads', express.static('uploads'))
 
 app.listen(PORT, () => {
   console.log(`App is running at http://localhost:${PORT}`)
